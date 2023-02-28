@@ -1,42 +1,17 @@
-import json
 import docker
+import simplejson as json
+from subprocess import check_output
+
+
+
+
 
 
 client = docker.from_env()
+checkmk_data={}
+#servicelist = client.services.list()
+dockerstats =  ''''b\'"mintsd_hpsm.1.26a7cokbz6ol1enowf4i3qya9 0.34% 8.57%"'''
+stats = dockerstats.replace('%','').replace('\\n\\','').splitlines()
+print(stats)
+exit()
 
-#Get list of all services with data
-servicelist = client.services()
-
-
-
-#Get list of service ID
-
-#for service in servicelist:
-  #svcname = service['Spec']['Name']
-  #svcreplica = service['Spec']['Mode']['Replicated']['Replicas']
-  #svcid = service.id
-  #svcdata = { "id": svcid,
-   #           "name": svcname,
-    #          "replica": svcreplica
-    #        }
-#print(json.dumps(svcdata, indent=2))
-
-
- #print("0 " + svcname + " replica=" + str(svcreplica))
-
-
-for i in range(0,len(servicelist)-1):
-
- txt = json.dumps(servicelist[i])
-
-
- with open("dane.json", "w") as f:
-    f.write(txt)
-
- f = open("dane.json")
-
- data = json.load(f)
-
- svcreplica = data["Spec"]["Mode"]["Replicated"]["Replicas"]
- svcname = data["Spec"]["Name"]
- print("0 " + svcname + " replica=" + str(svcreplica))
